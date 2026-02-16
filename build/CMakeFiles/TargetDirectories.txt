@@ -1,3 +1,0 @@
-/Users/denankurejsepi/Documents/Engineering/Source/cableTool_Dev/build/CMakeFiles/cableTool.dir
-/Users/denankurejsepi/Documents/Engineering/Source/cableTool_Dev/build/CMakeFiles/edit_cache.dir
-/Users/denankurejsepi/Documents/Engineering/Source/cableTool_Dev/build/CMakeFiles/rebuild_cache.dir
