@@ -8,7 +8,7 @@ if(MSVC OR (CMAKE_GENERATOR MATCHES "Visual Studio"))
         CACHE STRING "" FORCE)
 endif()
 
-project(CableDesign VERSION 0.1 LANGUAGES C CXX)
+project(cableTool VERSION 0.1.2 LANGUAGES C CXX)
 
 # Opt in to CMP0135 (URL download extract timestamps) to silence the warning
 if(POLICY CMP0135)
@@ -61,7 +61,7 @@ else()
 endif()
 
 # ── 3. Main executable ────────────────────────────────────────────────────────
-add_executable(CableDesign
+add_executable(cableTool
     src/main.cpp
     db/DatabaseManager.cpp
     # Header-only — no .cpp needed:
@@ -71,13 +71,13 @@ add_executable(CableDesign
 
 # Expose all three subdirectories as include paths so headers can be
 # included without path prefixes (e.g. #include "CableData.h")
-target_include_directories(CableDesign PRIVATE
+target_include_directories(cableTool PRIVATE
     ${CMAKE_SOURCE_DIR}/db
     ${CMAKE_SOURCE_DIR}/engine
     ${CMAKE_SOURCE_DIR}/src
 )
 
-target_link_libraries(CableDesign PRIVATE
+target_link_libraries(cableTool PRIVATE
     sqlite3_lib
     ftxui::screen
     ftxui::dom
@@ -87,18 +87,18 @@ target_link_libraries(CableDesign PRIVATE
 # ── 4. Platform tweaks ────────────────────────────────────────────────────────
 if(MINGW)
     # Statically link libgcc/libstdc++ — fully self-contained .exe
-    target_link_options(CableDesign PRIVATE -static-libgcc -static-libstdc++)
+    target_link_options(cableTool PRIVATE -static-libgcc -static-libstdc++)
 endif()
 
 if(APPLE)
-    set_target_properties(CableDesign PROPERTIES
+    set_target_properties(cableTool PROPERTIES
         MACOSX_DEPLOYMENT_TARGET "11.0"
     )
 endif()
 
 # ── 5. Build summary ──────────────────────────────────────────────────────────
 message(STATUS "")
-message(STATUS "=== CableDesign TUI ===")
+message(STATUS "=== cableTool TUI ===")
 message(STATUS "  Host    : ${CMAKE_HOST_SYSTEM_NAME}")
 message(STATUS "  Target  : ${CMAKE_SYSTEM_NAME}")
 message(STATUS "  Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
