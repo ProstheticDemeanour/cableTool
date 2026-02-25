@@ -25,6 +25,7 @@ struct CalcResults {
     double Q_Mvar      = 0.0;
     double losses_kW   = 0.0;
     double dielLoss_kW = 0.0;
+    double losses_pct  = 0.0;
     double chargingA   = 0.0;
 };
 
@@ -68,6 +69,7 @@ inline CalcResults calculate(const SystemParams& p, const CableRecord& cable)
     r.Q_Mvar            = p.powerMVA * sinPhi;
     r.losses_kW         = 3.0 * r.current * r.current * r.R / 1000.0;
     r.dielLoss_kW       = cable.dielectricLossPerPhase * p.lengthKm * 3.0 / 1000.0;
+    r.losses_pct        = ((r.losses_kW) / (r.P_MW * 1e3)) * 100;
     r.chargingA         = cable.chargingCurrentPerPhase * p.lengthKm;
 
     return r;

@@ -1,7 +1,7 @@
 # Cable Design Tool – TUI Edition
 
-Terminal UI built with [FTXUI](https://github.com/ArthurSonzogni/FTXUI).  
-Data stored in a local **SQLite** database (auto-created on first run).  
+Terminal UI built with [FTXUI](https://github.com/ArthurSonzogni/FTXUI).
+Data stored in a local **SQLite** database (auto-created on first run).
 **Zero runtime dependencies** – single fully static binary per platform.
 
 Both FTXUI and SQLite are downloaded and compiled automatically by CMake.
@@ -64,20 +64,20 @@ cmake -B build-win \
 cmake --build build-win -j$(sysctl -n hw.logicalcpu)
 ```
 
-Output: `build-win/CableDesign.exe`  
+Output: `build-win/CableDesign.exe`
 Drop onto any 64-bit Windows machine and run – no installer, no DLLs, no .NET.
 
 ---
 
 ## Database
 
-On first run the app creates `cable_design.db` (SQLite) in the **working directory**  
+On first run the app creates `cable_design.db` (SQLite) in the **working directory**
 and seeds it with all 14 conductor sizes from the JSON source data.
 
-Subsequent runs read from the existing database, so you can edit the data  
+Subsequent runs read from the existing database, so you can edit the data
 externally with any SQLite tool (e.g. [DB Browser for SQLite](https://sqlitebrowser.org/)).
 
-If the database cannot be opened, the app falls back to the built-in static  
+If the database cannot be opened, the app falls back to the built-in static
 data and shows a warning in the status bar.
 
 ---
@@ -105,3 +105,8 @@ CableDesignTUI/
 ├── toolchain-mingw.cmake   # Cross-compile Windows .exe from macOS
 └── README.md
 ```
+## Release Notes
+
+- **0.1.0:** Initial Release
+- **0.1.1:** Power loss as a percentage
+- **0.1.2:** Fixed Cable db display with auto padding of columns

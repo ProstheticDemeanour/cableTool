@@ -84,6 +84,11 @@ static Element makeCableTable(const std::vector<CableRecord>& records)
     }
 
     auto table = Table(rows);
+    for (int col = 0; col < 16; ++col) {
+    table.SelectColumn(col).DecorateCells(
+        size(WIDTH, GREATER_THAN, 10)
+        );
+    }
     table.SelectAll().Border(LIGHT);
     table.SelectRow(0).Border(HEAVY);
     table.SelectRow(0).Decorate(bold);
@@ -148,6 +153,7 @@ static Element makeOutputPanel(const CalcResults& r, const SystemParams& p,
             section("Losses"),
             row("Resistive",  fmt(r.losses_kW,   2), "kW"),
             row("Dielectric", fmt(r.dielLoss_kW, 2), "kW  (3-phase)"),
+            row("Total Power Loss", fmt(r.losses_pct, 2), "%"),
             separator(),
             section("Capacitive"),
             row("Charging current", fmt(r.chargingA, 3), "A/phase"),
@@ -336,7 +342,7 @@ int main()
                     ? text("cable_design.db  OK") | color(Color::Green)
                     : text("unavailable") | color(Color::Red),
                 filler(),
-                text(" CableDesign v0.1 ") | dim,
+                text(" CableDesign v0.1.2 ") | dim,
             }) | bgcolor(Color::GrayDark),
         }) | flex;
     });
