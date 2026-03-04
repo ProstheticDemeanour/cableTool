@@ -64,6 +64,7 @@ endif()
 add_executable(cableTool
     src/main.cpp
     db/DatabaseManager.cpp
+    engine/SheathCalc.cpp
     # Header-only — no .cpp needed:
     #   db/CableData.h
     #   engine/Calculator.h
