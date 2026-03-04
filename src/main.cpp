@@ -296,9 +296,9 @@ static Element makeSheathGraph(const sheath::SheathResults& res,
         double v1a = std::get<0>(res.Emag[m]);
         double v1b = std::get<1>(res.Emag[m]);
         double v1c = std::get<2>(res.Emag[m]);
-        c.DrawBlockLine(px(m-1), py(v0a), px(m), py(v1a), Color::Cyan);
-        c.DrawBlockLine(px(m-1), py(v0b), px(m), py(v1b), Color::Yellow);
-        c.DrawBlockLine(px(m-1), py(v0c), px(m), py(v1c), Color::Magenta);
+        c.DrawPointLine(px(m-1), py(v0a), px(m), py(v1a), Color::Cyan);
+        c.DrawPointLine(px(m-1), py(v0b), px(m), py(v1b), Color::Yellow);
+        c.DrawPointLine(px(m-1), py(v0c), px(m), py(v1c), Color::Magenta);
     }
 
     // ── Y-axis label column ───────────────────────────────────────────────────
@@ -481,7 +481,10 @@ int main()
     auto pfInput         = Input(&pfStr,       "0.95");
     auto lengthInput     = Input(&lengthStr,   "1.0");
     auto arrangementMenu = Radiobox(&arrangementLabels, &arrangementIdx);
-    auto sizeMenu        = Menu(&sizeLabels, &sizeIdx);
+    // focused_entry keeps the selected item scrolled into view automatically
+    auto sizeMenuOpt        = MenuOption::Vertical();
+    sizeMenuOpt.focused_entry = &sizeIdx;
+    auto sizeMenu           = Menu(&sizeLabels, &sizeIdx, sizeMenuOpt);
 
     auto calcButton = Button("  Calculate [Enter]  ", [&] {
         errorMsg.clear();
@@ -550,8 +553,8 @@ int main()
                 hbox({ text("  "), arrangementMenu->Render() }),
                 separator(),
                 text(" Conductor Size:") | dim,
-                sizeMenu->Render() | size(HEIGHT, LESS_THAN, 8)
-                                   | vscroll_indicator | frame,
+                sizeMenu->Render() | frame
+                                   | size(HEIGHT, LESS_THAN, 8),
                 separator(),
                 calcButton->Render() | center,
                 errorMsg.empty()
@@ -852,7 +855,9 @@ int main()
     });
 
     // ── Cable Data tab ────────────────────────────────────────────────────────
-    auto cableDataComp = Renderer([&] {
+    auto cableDataContainer = Container::Vertical({});
+
+    auto cableDataComp = Renderer(cableDataContainer, [&] {
         return vbox({
             text(" 33 kV XLPE Cable Electrical Data") | bold | center,
             text(db.isOpen()
@@ -885,7 +890,7 @@ int main()
                     ? text("cable_design.db  OK") | color(Color::Green)
                     : text("unavailable") | color(Color::Red),
                 filler(),
-                text(" CableDesign v1.1.2 ") | dim,
+                text(" CableDesign v1.2.0 ") | dim,
             }) | bgcolor(Color::GrayDark),
         }) | flex;
     });
